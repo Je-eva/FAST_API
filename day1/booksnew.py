@@ -13,6 +13,18 @@ class Book(BaseModel):
     rating: int = Field(gt=0, lt=6)
     published_date: int = Field(gt=1999, lt=2031)
 
+class Config:
+        json_schema_extra = {
+            "example": {
+                "title": "A New Dawn",
+                "author": "Je-eva",
+                "description": "An intriguing story about resilience.",
+                "rating": 5,
+                "published_date": 2025,
+            }
+        }
+
+
 # Initialize an empty list to store books
 books: List[Book] = []
 
