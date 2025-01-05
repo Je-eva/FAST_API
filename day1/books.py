@@ -45,3 +45,12 @@ def delete_book(id : UUID):
             del books[counter-1]
             return f"ID:{id} deleted"
     raise HTTPException(status_code=404,detail="ID {id} doesnt exist")
+
+@app.get("/books/byauthor/")
+async def read_books_by_author(author: str):
+    books_to_return = []
+    for book in books:  # Corrected BOOKS to books
+        if book.author.casefold() == author.casefold():  # Adjusted to use Pydantic model attributes
+            books_to_return.append(book)
+    return books_to_return
+
