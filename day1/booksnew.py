@@ -46,6 +46,23 @@ def read_books_by_author(author: str):
         raise HTTPException(status_code=404, detail="No books found for this author")
     return books_to_return
 
+#mix of part hang qeury param
+@app.get("/books/byrating/{book_rating}", status_code=200)
+def read_books_by_rating(book_rating: int = Path(...), limit: int = Query(10, le=100)):
+    books_to_return = [book for book in books if book.rating == book_rating]
+    if not books_to_return:
+        raise HTTPException(status_code=404, detail="No books found with this rating")
+    return books_to_return[:limit]
+
+
+#using path para
+@app.get("/books/byrating/{book_rating}", status_code=200)
+def read_books_by_rating(book_rating: int = Path(gt=0, lt=6)):
+    books_to_return = [book for book in books if book.rating == book_rating]
+    if not books_to_return:
+        raise HTTPException(status_code=404, detail="No books found with this rating")
+    return books_to_return
+#using qeury paran
 @app.get("/books/byrating/", status_code=200)
 def read_books_by_rating(book_rating: int = Query(gt=0, lt=6)):
     books_to_return = [book for book in books if book.rating == book_rating]
